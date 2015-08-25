@@ -1,4 +1,4 @@
-# PureMarkdown
+﻿# PureMarkdown
 This is a simple markdown editor.  
 
 ## Develop Tools & Relative Technology
@@ -9,3 +9,6 @@ This is a simple markdown editor.
 ## Third Party Library
 1. MarkdownSharp
 2. ICSharpCode.TextEditor
+
+## Todo
+支援 Markdown Extra：http://michelf.ca/projects/php-markdown/extra/
