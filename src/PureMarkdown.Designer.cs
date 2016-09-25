@@ -40,14 +40,13 @@
             this.匯出網頁ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.關於ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.markdown語法說明ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.textEditorControl1 = new ICSharpCode.TextEditor.TextEditorControl();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogForSetCSS = new System.Windows.Forms.OpenFileDialog();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -76,28 +75,28 @@
             // 新文件ToolStripMenuItem1
             // 
             this.新文件ToolStripMenuItem1.Name = "新文件ToolStripMenuItem1";
-            this.新文件ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
-            this.新文件ToolStripMenuItem1.Text = "新文件";
+            this.新文件ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.新文件ToolStripMenuItem1.Text = "新增文件";
             this.新文件ToolStripMenuItem1.Click += new System.EventHandler(this.新文件ToolStripMenuItem1_Click);
             // 
             // 開啟檔案ToolStripMenuItem
             // 
             this.開啟檔案ToolStripMenuItem.Name = "開啟檔案ToolStripMenuItem";
-            this.開啟檔案ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.開啟檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.開啟檔案ToolStripMenuItem.Text = "開啟檔案";
             this.開啟檔案ToolStripMenuItem.Click += new System.EventHandler(this.開啟檔案ToolStripMenuItem_Click);
             // 
             // 儲存檔案ToolStripMenuItem
             // 
             this.儲存檔案ToolStripMenuItem.Name = "儲存檔案ToolStripMenuItem";
-            this.儲存檔案ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.儲存檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.儲存檔案ToolStripMenuItem.Text = "儲存檔案";
             this.儲存檔案ToolStripMenuItem.Click += new System.EventHandler(this.儲存檔案ToolStripMenuItem_Click);
             // 
             // 另存新檔ToolStripMenuItem1
             // 
             this.另存新檔ToolStripMenuItem1.Name = "另存新檔ToolStripMenuItem1";
-            this.另存新檔ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.另存新檔ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.另存新檔ToolStripMenuItem1.Text = "另存新檔";
             this.另存新檔ToolStripMenuItem1.Click += new System.EventHandler(this.另存新檔ToolStripMenuItem1_Click);
             // 
@@ -139,52 +138,33 @@
             this.markdown語法說明ToolStripMenuItem.Text = "Markdown 語法說明";
             this.markdown語法說明ToolStripMenuItem.Click += new System.EventHandler(this.markdown語法說明ToolStripMenuItem_Click);
             // 
-            // webBrowser1
+            // tabControl1
             // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(467, 3);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(458, 573);
-            this.webBrowser1.TabIndex = 7;
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(928, 579);
+            this.tabControl1.TabIndex = 10;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            this.tabControl1.DoubleClick += new System.EventHandler(this.tabControl1_DoubleClick);
             // 
-            // tableLayoutPanel1
+            // panel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.textEditorControl1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.webBrowser1, 1, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(928, 579);
-            this.tableLayoutPanel1.TabIndex = 10;
-            // 
-            // textEditorControl1
-            // 
-            this.textEditorControl1.AutoScroll = true;
-            this.textEditorControl1.AutoSize = true;
-            this.textEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textEditorControl1.IsReadOnly = false;
-            this.textEditorControl1.Location = new System.Drawing.Point(3, 3);
-            this.textEditorControl1.Name = "textEditorControl1";
-            this.textEditorControl1.Size = new System.Drawing.Size(458, 573);
-            this.textEditorControl1.TabIndex = 9;
-            this.textEditorControl1.TextChanged += new System.EventHandler(this.textEditorControl1_TextChanged);
-            this.textEditorControl1.DragDrop += new System.Windows.Forms.DragEventHandler(this.textEditorControl1_DragDrop);
-            this.textEditorControl1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textEditorControl1_KeyDown);
-            this.textEditorControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.textEditorControl1_MouseDown);
+            this.panel1.Controls.Add(this.tabControl1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 24);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(928, 579);
+            this.panel1.TabIndex = 11;
+            this.panel1.DoubleClick += new System.EventHandler(this.panel1_DoubleClick);
             // 
             // PureMarkdown
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(928, 603);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -195,8 +175,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -205,22 +184,21 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.ToolStripMenuItem 關於ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 檔案ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 另存新檔ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 儲存檔案ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 新文件ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem markdown語法說明ToolStripMenuItem;
-        private ICSharpCode.TextEditor.TextEditorControl textEditorControl1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ToolStripMenuItem 開啟檔案ToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem 工具ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 載入CSSToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialogForSetCSS;
         private System.Windows.Forms.ToolStripMenuItem 匯出網頁ToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

@@ -55,6 +55,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="editorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="editorControl.Designer.cs">
+      <DependentUpon>editorControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Markdown.cs" />
     <Compile Include="PureMarkdown.cs">
       <SubType>Form</SubType>
@@ -64,6 +70,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="editorControl.resx">
+      <DependentUpon>editorControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PureMarkdown.resx">
       <DependentUpon>PureMarkdown.cs</DependentUpon>
     </EmbeddedResource>
