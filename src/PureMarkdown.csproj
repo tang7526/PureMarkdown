@@ -55,6 +55,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DraggableTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DraggableTabControl.Designer.cs">
+      <DependentUpon>DraggableTabControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="editorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

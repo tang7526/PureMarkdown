@@ -28,12 +28,12 @@ namespace PureMarkdown
         {
             this.WindowState = FormWindowState.Maximized;  // 設定表單最大化    
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
-            this.tabControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabControl1_MouseWheelDown);
+            this.tabControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabControl1_MouseDown);
             this.tabControl1.ShowToolTips = true;
             addNewTabPage();
-            this.tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
-            this.tabControl1.Padding = new System.Drawing.Point(CLOSE_SIZE, this.tabControl1.Location.Y);
-            this.tabControl1.DrawItem += new DrawItemEventHandler(this.tabControl1_DrawItem);
+            //this.tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
+            //this.tabControl1.Padding = new System.Drawing.Point(CLOSE_SIZE, this.tabControl1.Location.Y);
+            //this.tabControl1.DrawItem += new DrawItemEventHandler(this.tabControl1_DrawItem);
         }
 
         private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
@@ -72,8 +72,12 @@ namespace PureMarkdown
                 }
                 e.Graphics.Dispose();
             }
-            catch (Exception)
-            { }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message);
+            }
+
+
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -225,7 +229,7 @@ namespace PureMarkdown
         private void addNewTabPage()
         {
             TabPage tabPage = new TabPage();
-            
+
             editorControl editor_Control = new editorControl(this, this.tabControl1, this.saveFileDialog1);
             editor_Control.Dock = DockStyle.Fill;
             tabPage.Controls.Add(editor_Control);
@@ -238,24 +242,24 @@ namespace PureMarkdown
             editor_Control.FocusNewTabPage();
         }
 
-        private void tabControl1_MouseWheelDown(object sender, MouseEventArgs e)
+        private void tabControl1_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                int x = e.X, y = e.Y;
-                //計算關閉區域   
-                Rectangle myTabRect = this.tabControl1.GetTabRect(this.tabControl1.SelectedIndex);
-                myTabRect.Offset(myTabRect.Width - (CLOSE_SIZE + 3), 2);
-                myTabRect.Width = CLOSE_SIZE;
-                myTabRect.Height = CLOSE_SIZE;
+                //int x = e.X, y = e.Y;
+                ////計算關閉區域   
+                //Rectangle myTabRect = this.tabControl1.GetTabRect(this.tabControl1.SelectedIndex);
+                //myTabRect.Offset(myTabRect.Width - (CLOSE_SIZE + 3), 2);
+                //myTabRect.Width = CLOSE_SIZE;
+                //myTabRect.Height = CLOSE_SIZE;
 
-                //如果鼠標在區域內就關閉選項卡   
-                bool isClose = x > myTabRect.X && x < myTabRect.Right && y > myTabRect.Y && y < myTabRect.Bottom;
-                if (isClose == true)
-                {
-                    removeTabPage(this.tabControl1.SelectedTab);
-                    return;
-                }
+                ////如果鼠標在區域內就關閉選項卡   
+                //bool isClose = x > myTabRect.X && x < myTabRect.Right && y > myTabRect.Y && y < myTabRect.Bottom;
+                //if (isClose == true)
+                //{
+                //    removeTabPage(this.tabControl1.SelectedTab);
+                //    return;
+                //}
             }
 
             if (e.Button == MouseButtons.Middle) // 若按下滑鼠中鍵
@@ -269,7 +273,7 @@ namespace PureMarkdown
                     if (r.Contains(p))
                     {
                         TabPage tab_page = this.tabControl1.TabPages[i];
-                        removeTabPage(tab_page);
+                        closeTabPage(tab_page);
                         return;
                     }
                 }
@@ -277,7 +281,7 @@ namespace PureMarkdown
             ((TextEditorControl)this.tabControl1.SelectedTab.Controls.Find("textEditorControl1", true).FirstOrDefault()).Focus();
         }
 
-        private void removeTabPage(TabPage tab_page)
+        private void closeTabPage(TabPage tab_page)
         {
             TextEditorControl text_editor = ((TextEditorControl)tab_page.Controls.Find("textEditorControl1", true).FirstOrDefault());
             if (this.tabControl1.TabCount == 1 && !tab_page.Text.Contains("*"))
@@ -336,7 +340,16 @@ namespace PureMarkdown
 
         private void 結束程式ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //for (int i = 0; i < this.tabControl1.TabCount; i++)
+            //{
+            //    closeTabPage(this.tabControl1.TabPages[i]);
+            //}
             this.Close();
+        }
+
+        private void 關閉檔案ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            closeTabPage(this.tabControl1.SelectedTab);
         }
     }
 }
