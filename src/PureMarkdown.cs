@@ -26,7 +26,7 @@ namespace PureMarkdown
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Maximized;  // 設定表單最大化    
+            // this.WindowState = FormWindowState.Maximized;  // 設定表單最大化    
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.tabControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabControl1_MouseDown);
             this.tabControl1.ShowToolTips = true;
