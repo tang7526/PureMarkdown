@@ -13,11 +13,17 @@ namespace PureMarkdown
 {
     public partial class editorControl : UserControl
     {
-        public bool bPressBy新文件 = false;
+        private TabControl tabControl;
 
         public editorControl()
         {
             InitializeComponent();
+        }
+
+        public editorControl(TabControl tabControl)
+        {
+            InitializeComponent();
+            this.tabControl = tabControl;
         }
 
         private void textEditorControl1_Load(object sender, EventArgs e)
@@ -35,19 +41,15 @@ namespace PureMarkdown
 
         private void textEditorControl1_TextChanged(object sender, EventArgs e)
         {
-            //if (bPressBy新文件 == false && this.tabControl1.SelectedTab.Text.IndexOf('*', 0) < 0)
-            //{
-                
-            //    this.tabControl1.SelectedTab.Text = "* " + this.tabControl1.SelectedTab.Text;
-            //}
-            //else
-            //{
-            //    bPressBy新文件 = false;
-            //}
+            if (this.tabControl.SelectedTab.Text.IndexOf('*', 0) < 0)
+            {
+                this.tabControl.SelectedTab.Text = "* " + this.tabControl.SelectedTab.Text;
+            }
 
-            //Markdown markdown = new Markdown();
-            //string strHtml = markdown.Transform(this.textEditorControl1.Text);
+            Markdown markdown = new Markdown();
+            string strHtml = markdown.Transform(this.textEditorControl1.Text);
             //this.webBrowser1.Document.Body.InnerHtml = FixHR(strHtml);
+            this.webBrowser1.Document.Body.InnerHtml = strHtml;
         }
 
         /// <summary>

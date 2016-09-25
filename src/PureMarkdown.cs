@@ -188,7 +188,7 @@ namespace NotepadPower
         private void addNewTabPage()
         {
             TabPage tabPage = new TabPage();
-            editorControl editorControl = new editorControl();
+            editorControl editorControl = new editorControl(this.tabControl1);
             editorControl.Dock = DockStyle.Fill;
             tabPage.Controls.Add(editorControl);
             this.tabControl1.TabPages.Add(tabPage);
