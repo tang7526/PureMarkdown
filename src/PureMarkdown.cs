@@ -17,6 +17,7 @@ namespace NotepadPower
     public partial class PureMarkdown : Form
     {
         static int PAGESCOUNT = 0;
+
         public PureMarkdown()
         {
             InitializeComponent();
@@ -25,7 +26,7 @@ namespace NotepadPower
         private void Form1_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;  // 設定表單最大化    
-            this.tabControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabPage_MouseWheelDown);
+            this.tabControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabControl1_MouseWheelDown);
             addNewTabPage();
         }
 
@@ -78,7 +79,7 @@ namespace NotepadPower
             }
             else
             {
-                //this.textEditorControl1.SaveFile(this.tabControl1.SelectedTab.Text.Remove(0, 2));
+                ((editorControl)this.ActiveControl).SaveFile(this.tabControl1.SelectedTab.Text.Remove(0, 2));
                 if (this.tabControl1.SelectedTab.Text.IndexOf('*', 0) == 0)
                 {
                     this.tabControl1.SelectedTab.Text = this.tabControl1.SelectedTab.Text.Remove(0, 2);
@@ -93,12 +94,11 @@ namespace NotepadPower
 
         private void SaveAs()
         {
-            MessageBox.Show(this.ActiveControl.Name);
+            //   MessageBox.Show(this.ActiveControl.Name);
             saveFileDialog1.Filter = "Markdown files (*.md)|*.md|All files (*.*)|*.*";
             if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                editorControl activeEditorControl = (editorControl)this.ActiveControl;
-                activeEditorControl.SaveFile(saveFileDialog1.FileName);
+                ((editorControl)this.ActiveControl).SaveFile(saveFileDialog1.FileName);
                 this.tabControl1.SelectedTab.Text = saveFileDialog1.FileName;
             }
         }
@@ -179,7 +179,10 @@ namespace NotepadPower
 
         private void panel1_DoubleClick(object sender, EventArgs e)
         {
-            addNewTabPage();
+            if (((MouseEventArgs)e).Button == MouseButtons.Left)
+            {
+                addNewTabPage();
+            }
         }
 
         private void addNewTabPage()
@@ -193,30 +196,27 @@ namespace NotepadPower
             tabPage.Text = "未命名" + PAGESCOUNT + ".md";
         }
 
-        private void tabPage_MouseWheelDown(object sender, MouseEventArgs e)
+        private void tabControl1_MouseWheelDown(object sender, MouseEventArgs e)
         {
-           
-            //if (e.Button == MouseButtons.Middle)
-            //{
-                
-            //    //MessageBox.Show(((TabControl)sender).SelectedTab.Text);
-            //    if (this.tabControl1.TabPages.Count > 1)
-            //    {
-            //        // TODO ff
-            //        //this.tabControl1.TabPages.Remove(((TabControl)sender).SelectedTab);
-            //    }
-            //}
-        }
+            if (e.Button == MouseButtons.Middle) // 若按下滑鼠中鍵
+            {
+                Point p = this.tabControl1.PointToClient(Cursor.Position); // 取得游標所在位置的座標
+                for (int i = 0; i < this.tabControl1.TabCount; i++)
+                {
+                    Rectangle r = this.tabControl1.GetTabRect(i); // 取得 TabPage 的邊框
 
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("hh");
+                    // 如果游標落在邊框內
+                    if (r.Contains(p))
+                    {
+                        if (this.tabControl1.TabCount > 1) // 如果分頁有一個以上再關閉
+                        {
+                            this.tabControl1.TabPages.RemoveAt(i); // 移除所在邊框的分頁
+                            this.tabControl1.SelectedIndex = this.tabControl1.TabCount - 1; // 將所在邊框指定為最後一個
+                            return;
+                        }
+                    }
+                }
+            }
         }
-
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // MessageBox.Show("hh");
-        }
-
     }
 }

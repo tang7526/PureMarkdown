@@ -75,28 +75,28 @@
             // 新文件ToolStripMenuItem1
             // 
             this.新文件ToolStripMenuItem1.Name = "新文件ToolStripMenuItem1";
-            this.新文件ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.新文件ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
             this.新文件ToolStripMenuItem1.Text = "新增文件";
             this.新文件ToolStripMenuItem1.Click += new System.EventHandler(this.新文件ToolStripMenuItem1_Click);
             // 
             // 開啟檔案ToolStripMenuItem
             // 
             this.開啟檔案ToolStripMenuItem.Name = "開啟檔案ToolStripMenuItem";
-            this.開啟檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.開啟檔案ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.開啟檔案ToolStripMenuItem.Text = "開啟檔案";
             this.開啟檔案ToolStripMenuItem.Click += new System.EventHandler(this.開啟檔案ToolStripMenuItem_Click);
             // 
             // 儲存檔案ToolStripMenuItem
             // 
             this.儲存檔案ToolStripMenuItem.Name = "儲存檔案ToolStripMenuItem";
-            this.儲存檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.儲存檔案ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.儲存檔案ToolStripMenuItem.Text = "儲存檔案";
             this.儲存檔案ToolStripMenuItem.Click += new System.EventHandler(this.儲存檔案ToolStripMenuItem_Click);
             // 
             // 另存新檔ToolStripMenuItem1
             // 
             this.另存新檔ToolStripMenuItem1.Name = "另存新檔ToolStripMenuItem1";
-            this.另存新檔ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.另存新檔ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
             this.另存新檔ToolStripMenuItem1.Text = "另存新檔";
             this.另存新檔ToolStripMenuItem1.Click += new System.EventHandler(this.另存新檔ToolStripMenuItem1_Click);
             // 
@@ -146,7 +146,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(928, 579);
             this.tabControl1.TabIndex = 10;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.tabControl1.DoubleClick += new System.EventHandler(this.tabControl1_DoubleClick);
             // 
             // panel1
