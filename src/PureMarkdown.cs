@@ -30,13 +30,16 @@ namespace NotepadPower
             this.tabControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabControl1_MouseWheelDown);
             this.tabControl1.ShowToolTips = true;
             addNewTabPage();
-            
+
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.Text = this.tabControl1.SelectedTab.ToolTipText + " - PureMarkdown";
-            ((TextEditorControl)this.tabControl1.SelectedTab.Controls.Find("textEditorControl1", true).FirstOrDefault()).Focus();
+            if (this.tabControl1.SelectedTab != null)
+            {
+                this.Text = this.tabControl1.SelectedTab.ToolTipText + " - PureMarkdown";
+                ((TextEditorControl)this.tabControl1.SelectedTab.Controls.Find("textEditorControl1", true).FirstOrDefault()).Focus();
+            }
         }
 
         private void markdown語法說明ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -64,39 +67,43 @@ namespace NotepadPower
 
         private void 儲存檔案ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFile();
-        }
-
-        private void SaveFile()
-        {
-            if (this.tabControl1.SelectedTab.Text.Contains("未命名"))
-            {
-                SaveAs();
-            }
-            else
-            {
-                ((editorControl)this.ActiveControl).SaveFile(this.tabControl1.SelectedTab.Text.Remove(0, 2));
-                if (this.tabControl1.SelectedTab.Text.IndexOf('*', 0) == 0)
-                {
-                    this.tabControl1.SelectedTab.Text = this.tabControl1.SelectedTab.Text.Remove(0, 2);
-                }
-            }
+            SaveFile(this.tabControl1.SelectedTab);
         }
 
         private void 另存新檔ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            SaveAs();
+            SaveAs(this.tabControl1.SelectedTab);
         }
 
-        private void SaveAs()
+        private void SaveFile(TabPage tab_page)
         {
-            saveFileDialog1.Filter = "Markdown files (*.md)|*.md|All files (*.*)|*.*";
+            if (tab_page.Text.Contains("未命名"))
+            {
+                SaveAs(tab_page);
+            }
+            else
+            {
+                TextEditorControl text_editor = ((TextEditorControl)tab_page.Controls.Find("textEditorControl1", true).FirstOrDefault());
+                text_editor.SaveFile(tab_page.ToolTipText);
+
+                if (tab_page.Text.IndexOf('*', 0) == 0)
+                {
+                    tab_page.Text = tab_page.Text.Remove(0, 2);
+                }
+            }
+        }
+
+        private void SaveAs(TabPage tab_page)
+        {
+            this.saveFileDialog1.Filter = "Markdown files (*.md)|*.md|All files (*.*)|*.*";
             if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                ((editorControl)this.ActiveControl).SaveFile(saveFileDialog1.FileName);
-                this.Text = saveFileDialog1.FileName + " - PureMarkdown";
-                this.tabControl1.SelectedTab.Text = saveFileDialog1.FileName.Substring(saveFileDialog1.FileName.LastIndexOf('\\') + 1);
-                this.tabControl1.SelectedTab.ToolTipText = saveFileDialog1.FileName;
+                TextEditorControl text_editor = ((TextEditorControl)tab_page.Controls.Find("textEditorControl1", true).FirstOrDefault());
+                text_editor.SaveFile(this.saveFileDialog1.FileName);
+
+                this.Text = this.saveFileDialog1.FileName + " - PureMarkdown";
+                tab_page.Text = this.saveFileDialog1.FileName.Substring(saveFileDialog1.FileName.LastIndexOf('\\') + 1);
+                tab_page.ToolTipText = this.saveFileDialog1.FileName;
             }
         }
 
@@ -199,18 +206,67 @@ namespace NotepadPower
                     // 如果游標落在邊框內
                     if (r.Contains(p))
                     {
-                        if (this.tabControl1.TabCount > 1) // 如果分頁有一個以上再關閉
+                        TabPage tab_page = this.tabControl1.TabPages[i];
+                        TextEditorControl text_editor = ((TextEditorControl)this.tabControl1.TabPages[i].Controls.Find("textEditorControl1", true).FirstOrDefault());
+                        if (this.tabControl1.TabCount == 1 && !tab_page.Text.Contains("*"))
+                        {
+                            if (tab_page.Text.Contains("未命名"))
+                            {
+                                return;
+                            }
+                            else
+                            {
+                                this.tabControl1.TabPages.RemoveAt(i); // 移除所在邊框的分頁
+                                addNewTabPage();
+                            }
+                        }
+
+                        if (this.tabControl1.TabCount == 1 && tab_page.Text.Contains("*"))
+                        {
+                            DialogResult myResult = MessageBox.Show("Save file '" + tab_page.Text.Replace("*", "").Trim() + "'?", "Save", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                            if (myResult == DialogResult.Yes)
+                            {
+                                SaveFile(tab_page);
+                            }
+                            else if (myResult == DialogResult.No)
+                            {
+                                this.tabControl1.TabPages.RemoveAt(i); // 移除所在邊框的分頁
+                                addNewTabPage();
+                            }
+
+                            return;
+                        }
+
+                        if (this.tabControl1.TabCount > 1 && !tab_page.Text.Contains("*"))
                         {
                             this.tabControl1.TabPages.RemoveAt(i); // 移除所在邊框的分頁
                             this.tabControl1.SelectedIndex = this.tabControl1.TabCount - 1; // 將所在邊框指定為最後一個
-                            ((TextEditorControl)this.tabControl1.SelectedTab.Controls.Find("textEditorControl1", true).FirstOrDefault()).Focus();
+                            text_editor.Focus();
                             return;
                         }
+
+                        if (this.tabControl1.TabCount > 1 && tab_page.Text.Contains("*"))
+                        {
+                            DialogResult myResult = MessageBox.Show("Save file '" + tab_page.Text.Replace("*", "").Trim() + "'?", "Save", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                            if (myResult == DialogResult.Yes)
+                            {
+                                SaveFile(tab_page);
+                            }
+                            else if (myResult == DialogResult.No)
+                            {
+                                this.tabControl1.TabPages.RemoveAt(i); // 移除所在邊框的分頁
+                            }
+
+                            return;
+                        }
+
+                        return;
                     }
                 }
             }
             ((TextEditorControl)this.tabControl1.SelectedTab.Controls.Find("textEditorControl1", true).FirstOrDefault()).Focus();
         }
+
 
         private void 結束程式ToolStripMenuItem_Click(object sender, EventArgs e)
         {

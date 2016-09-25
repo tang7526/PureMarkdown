@@ -8,13 +8,14 @@ using System.Text;
 using System.Windows.Forms;
 using MarkdownSharp;
 using NotepadPower;
+using ICSharpCode.TextEditor;
 
 namespace PureMarkdown
 {
     public partial class editorControl : UserControl
     {
         private TabControl tabControl;
-        private SaveFileDialog saveFileDialog;
+        private SaveFileDialog saveFileDialog1;
         private NotepadPower.PureMarkdown pureMarkdown;
 
         public editorControl()
@@ -32,7 +33,7 @@ namespace PureMarkdown
         {
             InitializeComponent();
             this.tabControl = tabControl;
-            this.saveFileDialog = saveFileDialog;
+            this.saveFileDialog1 = saveFileDialog;
         }
 
         public editorControl(NotepadPower.PureMarkdown pureMarkdown, TabControl tabControl, SaveFileDialog saveFileDialog)
@@ -40,7 +41,7 @@ namespace PureMarkdown
             InitializeComponent();
             this.pureMarkdown = pureMarkdown;
             this.tabControl = tabControl;
-            this.saveFileDialog = saveFileDialog;
+            this.saveFileDialog1 = saveFileDialog;
 
         }
 
@@ -61,35 +62,39 @@ namespace PureMarkdown
         {
             if (e.Control && e.KeyCode.ToString() == "S")
             {
-                SaveFile();
+                SaveFile(this.tabControl.SelectedTab);
             }
         }
 
-        private void SaveFile()
+        private void SaveFile(TabPage tab_page)
         {
-            if (this.tabControl.SelectedTab.Text.Contains("未命名"))
+            if (tab_page.Text.Contains("未命名"))
             {
-                SaveAs();
+                SaveAs(tab_page);
             }
             else
             {
-                this.textEditorControl1.SaveFile(this.tabControl.SelectedTab.Text.Remove(0, 2));
-                if (this.tabControl.SelectedTab.Text.IndexOf('*', 0) == 0)
+                TextEditorControl text_editor = ((TextEditorControl)tab_page.Controls.Find("textEditorControl1", true).FirstOrDefault());
+                text_editor.SaveFile(tab_page.ToolTipText);
+
+                if (tab_page.Text.IndexOf('*', 0) == 0)
                 {
-                    this.tabControl.SelectedTab.Text = this.tabControl.SelectedTab.Text.Remove(0, 2);
+                    tab_page.Text = tab_page.Text.Remove(0, 2);
                 }
             }
         }
 
-        private void SaveAs()
+        private void SaveAs(TabPage tab_page)
         {
-            this.saveFileDialog.Filter = "Markdown files (*.md)|*.md|All files (*.*)|*.*";
-            if (this.saveFileDialog.ShowDialog() == DialogResult.OK)
+            this.saveFileDialog1.Filter = "Markdown files (*.md)|*.md|All files (*.*)|*.*";
+            if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                this.textEditorControl1.SaveFile(saveFileDialog.FileName);
-                this.pureMarkdown.Text = saveFileDialog.FileName + " - PureMarkdown";
-                this.tabControl.SelectedTab.Text = saveFileDialog.FileName.Substring(saveFileDialog.FileName.LastIndexOf('\\') + 1);
-                this.tabControl.SelectedTab.ToolTipText = saveFileDialog.FileName;
+                TextEditorControl text_editor = ((TextEditorControl)tab_page.Controls.Find("textEditorControl1", true).FirstOrDefault());
+                text_editor.SaveFile(this.saveFileDialog1.FileName);
+
+                this.Text = this.saveFileDialog1.FileName + " - PureMarkdown";
+                tab_page.Text = this.saveFileDialog1.FileName.Substring(saveFileDialog1.FileName.LastIndexOf('\\') + 1);
+                tab_page.ToolTipText = this.saveFileDialog1.FileName;
             }
         }
 
