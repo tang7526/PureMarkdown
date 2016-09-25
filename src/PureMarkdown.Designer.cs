@@ -45,6 +45,7 @@
             this.openFileDialogForSetCSS = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.結束程式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -67,7 +68,8 @@
             this.新文件ToolStripMenuItem1,
             this.開啟檔案ToolStripMenuItem,
             this.儲存檔案ToolStripMenuItem,
-            this.另存新檔ToolStripMenuItem1});
+            this.另存新檔ToolStripMenuItem1,
+            this.結束程式ToolStripMenuItem});
             this.檔案ToolStripMenuItem.Name = "檔案ToolStripMenuItem";
             this.檔案ToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.檔案ToolStripMenuItem.Text = "檔案";
@@ -75,28 +77,28 @@
             // 新文件ToolStripMenuItem1
             // 
             this.新文件ToolStripMenuItem1.Name = "新文件ToolStripMenuItem1";
-            this.新文件ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.新文件ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.新文件ToolStripMenuItem1.Text = "新增文件";
             this.新文件ToolStripMenuItem1.Click += new System.EventHandler(this.新文件ToolStripMenuItem1_Click);
             // 
             // 開啟檔案ToolStripMenuItem
             // 
             this.開啟檔案ToolStripMenuItem.Name = "開啟檔案ToolStripMenuItem";
-            this.開啟檔案ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.開啟檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.開啟檔案ToolStripMenuItem.Text = "開啟檔案";
             this.開啟檔案ToolStripMenuItem.Click += new System.EventHandler(this.開啟檔案ToolStripMenuItem_Click);
             // 
             // 儲存檔案ToolStripMenuItem
             // 
             this.儲存檔案ToolStripMenuItem.Name = "儲存檔案ToolStripMenuItem";
-            this.儲存檔案ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.儲存檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.儲存檔案ToolStripMenuItem.Text = "儲存檔案";
             this.儲存檔案ToolStripMenuItem.Click += new System.EventHandler(this.儲存檔案ToolStripMenuItem_Click);
             // 
             // 另存新檔ToolStripMenuItem1
             // 
             this.另存新檔ToolStripMenuItem1.Name = "另存新檔ToolStripMenuItem1";
-            this.另存新檔ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.另存新檔ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.另存新檔ToolStripMenuItem1.Text = "另存新檔";
             this.另存新檔ToolStripMenuItem1.Click += new System.EventHandler(this.另存新檔ToolStripMenuItem1_Click);
             // 
@@ -157,6 +159,13 @@
             this.panel1.TabIndex = 11;
             this.panel1.DoubleClick += new System.EventHandler(this.panel1_DoubleClick);
             // 
+            // 結束程式ToolStripMenuItem
+            // 
+            this.結束程式ToolStripMenuItem.Name = "結束程式ToolStripMenuItem";
+            this.結束程式ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.結束程式ToolStripMenuItem.Text = "結束程式";
+            this.結束程式ToolStripMenuItem.Click += new System.EventHandler(this.結束程式ToolStripMenuItem_Click);
+            // 
             // PureMarkdown
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -197,6 +206,7 @@
         private System.Windows.Forms.ToolStripMenuItem 匯出網頁ToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStripMenuItem 結束程式ToolStripMenuItem;
     }
 }
 

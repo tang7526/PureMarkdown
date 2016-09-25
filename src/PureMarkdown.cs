@@ -50,8 +50,9 @@ namespace NotepadPower
             {
                 using (StreamReader sr = new StreamReader(this.openFileDialog1.FileName))
                 {
-                    //this.textEditorControl1.Text = sr.ReadToEnd();
+                    ((TextEditorControl)this.tabControl1.SelectedTab.Controls.Find("textEditorControl1", true).FirstOrDefault()).Text = sr.ReadToEnd();
                     this.Text = this.openFileDialog1.FileName;
+                    this.tabControl1.SelectedTab.Text = openFileDialog1.FileName.Substring(openFileDialog1.FileName.LastIndexOf('\\') + 1);
                 }
             }
         }
@@ -101,42 +102,47 @@ namespace NotepadPower
 
         private void 載入CSSToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.openFileDialogForSetCSS.Filter = "css files (*.css)|*.css";
-            //if (this.openFileDialogForSetCSS.ShowDialog() == DialogResult.OK)
-            //{
-            //    using (StreamReader sr = new StreamReader(this.openFileDialogForSetCSS.FileName))
-            //    {
-            //        string strBody = "";
-            //        if (this.webBrowser1.Document != null)
-            //        {
-            //            strBody = this.webBrowser1.Document.Body.InnerHtml;
-            //        }
-            //        webBrowser1.DocumentText = "<html><head>"
-            //                      + "<style type='text/css'>"
-            //                      + sr.ReadToEnd()
-            //                      + "</style></head>"
-            //                      + "<body>"
-            //                      + strBody
-            //                      + "</body></html>";
-            //    }
-            //}
+            this.openFileDialogForSetCSS.Filter = "css files (*.css)|*.css";
+            if (this.openFileDialogForSetCSS.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamReader sr = new StreamReader(this.openFileDialogForSetCSS.FileName))
+                {
+                    string strBody = "";
+                    WebBrowser web_browser = ((WebBrowser)this.tabControl1.SelectedTab.Controls.Find("webBrowser1", true).FirstOrDefault());
+                    if (web_browser.Document != null)
+                    {
+                        strBody = web_browser.Document.Body.InnerHtml;
+                    }
+                    web_browser.DocumentText = "<html><head>"
+                                  + "<style type='text/css'>"
+                                  + sr.ReadToEnd()
+                                  + "</style></head>"
+                                  + "<body>"
+                                  + strBody
+                                  + "</body></html>";
+                }
+            }
         }
 
         private void 匯出網頁ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //saveFileDialog1.Filter = "html files (*.html)|*.html";
-            //if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
-            //{
-            //    using (StreamWriter sw = new StreamWriter(saveFileDialog1.FileName))
-            //    {
-            //        sw.Write("<html>\n<head>\n<title></title>\n</head>\n<body>\n");
-            //        if (this.webBrowser1.Document != null)
-            //        {
-            //            sw.Write(this.webBrowser1.Document.Body.InnerHtml);
-            //        }
-            //        sw.Write("\n</body>\n</html>");
-            //    }
-            //}
+            saveFileDialog1.Filter = "html files (*.html)|*.html";
+            if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter sw = new StreamWriter(saveFileDialog1.FileName))
+                {
+                    WebBrowser web_browser = ((WebBrowser)this.tabControl1.SelectedTab.Controls.Find("webBrowser1", true).FirstOrDefault());
+                    sw.Write("<html>\n<head>\n");
+                    if (web_browser.Document != null)
+                    {
+                        HtmlElement head = web_browser.Document.GetElementsByTagName("head")[0];
+                        sw.Write(head.InnerHtml);
+                        sw.Write("\n<title></title>\n</head>\n<body>\n");
+                        sw.Write(web_browser.Document.Body.InnerHtml);
+                    }
+                    sw.Write("\n</body>\n</html>");
+                }
+            }
         }
 
         private void textEditorControl1_MouseDown(object sender, MouseEventArgs e)
@@ -204,6 +210,11 @@ namespace NotepadPower
                 }
             }
             ((TextEditorControl)this.tabControl1.SelectedTab.Controls.Find("textEditorControl1", true).FirstOrDefault()).Focus();
+        }
+
+        private void 結束程式ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
