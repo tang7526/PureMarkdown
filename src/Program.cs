@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace NotepadPower
+namespace PureMarkdown
 {
     static class Program
     {
@@ -15,7 +15,7 @@ namespace NotepadPower
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PureMarkdown());
+            Application.Run(new PureMarkdownForm());
         }
     }
 }

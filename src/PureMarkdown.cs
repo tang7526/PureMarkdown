@@ -12,13 +12,14 @@ using MarkdownSharp;
 using ICSharpCode.TextEditor;
 using PureMarkdown;
 
-namespace NotepadPower
+namespace PureMarkdown
 {
-    public partial class PureMarkdown : Form
+    public partial class PureMarkdownForm : Form
     {
         static int PAGESCOUNT = 0;
+        const int CLOSE_SIZE = 12;
 
-        public PureMarkdown()
+        public PureMarkdownForm()
         {
             InitializeComponent();
         }
@@ -30,7 +31,49 @@ namespace NotepadPower
             this.tabControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabControl1_MouseWheelDown);
             this.tabControl1.ShowToolTips = true;
             addNewTabPage();
+            this.tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
+            this.tabControl1.Padding = new System.Drawing.Point(CLOSE_SIZE, this.tabControl1.Location.Y);
+            this.tabControl1.DrawItem += new DrawItemEventHandler(this.tabControl1_DrawItem);
+        }
 
+        private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            try
+            {
+                Rectangle myTabRect = this.tabControl1.GetTabRect(e.Index);
+
+                //先添加TabPage屬性   
+                e.Graphics.DrawString(this.tabControl1.TabPages[e.Index].Text, this.Font, SystemBrushes.ControlText, myTabRect.X + 2, myTabRect.Y + 2);
+
+                //再畫一個矩形框
+                using (Pen p = new Pen(Color.White))
+                {
+                    myTabRect.Offset(myTabRect.Width - (CLOSE_SIZE + 3), 2);
+                    myTabRect.Width = CLOSE_SIZE;
+                    myTabRect.Height = CLOSE_SIZE;
+                    e.Graphics.DrawRectangle(p, myTabRect);
+                }
+
+                //填充矩形框
+                Color recColor = e.State == DrawItemState.Selected ? Color.White : Color.White;
+                using (Brush b = new SolidBrush(recColor))
+                {
+                    e.Graphics.FillRectangle(b, myTabRect);
+                }
+
+                //畫關閉符號
+                using (Pen objpen = new Pen(Color.Black))
+                {
+                    // 設定 tabPage 標籤圖片
+                    Bitmap image = new Bitmap(Properties.Resources.close_12);
+                    Bitmap bt = new Bitmap(image);
+                    Point p5 = new Point(myTabRect.X, 4);
+                    e.Graphics.DrawImage(bt, p5);
+                }
+                e.Graphics.Dispose();
+            }
+            catch (Exception)
+            { }
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -182,6 +225,7 @@ namespace NotepadPower
         private void addNewTabPage()
         {
             TabPage tabPage = new TabPage();
+            
             editorControl editor_Control = new editorControl(this, this.tabControl1, this.saveFileDialog1);
             editor_Control.Dock = DockStyle.Fill;
             tabPage.Controls.Add(editor_Control);
@@ -196,6 +240,24 @@ namespace NotepadPower
 
         private void tabControl1_MouseWheelDown(object sender, MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Left)
+            {
+                int x = e.X, y = e.Y;
+                //計算關閉區域   
+                Rectangle myTabRect = this.tabControl1.GetTabRect(this.tabControl1.SelectedIndex);
+                myTabRect.Offset(myTabRect.Width - (CLOSE_SIZE + 3), 2);
+                myTabRect.Width = CLOSE_SIZE;
+                myTabRect.Height = CLOSE_SIZE;
+
+                //如果鼠標在區域內就關閉選項卡   
+                bool isClose = x > myTabRect.X && x < myTabRect.Right && y > myTabRect.Y && y < myTabRect.Bottom;
+                if (isClose == true)
+                {
+                    removeTabPage(this.tabControl1.SelectedTab);
+                    return;
+                }
+            }
+
             if (e.Button == MouseButtons.Middle) // 若按下滑鼠中鍵
             {
                 Point p = this.tabControl1.PointToClient(Cursor.Position); // 取得游標所在位置的座標
@@ -207,64 +269,68 @@ namespace NotepadPower
                     if (r.Contains(p))
                     {
                         TabPage tab_page = this.tabControl1.TabPages[i];
-                        TextEditorControl text_editor = ((TextEditorControl)this.tabControl1.TabPages[i].Controls.Find("textEditorControl1", true).FirstOrDefault());
-                        if (this.tabControl1.TabCount == 1 && !tab_page.Text.Contains("*"))
-                        {
-                            if (tab_page.Text.Contains("未命名"))
-                            {
-                                return;
-                            }
-                            else
-                            {
-                                this.tabControl1.TabPages.RemoveAt(i); // 移除所在邊框的分頁
-                                addNewTabPage();
-                            }
-                        }
-
-                        if (this.tabControl1.TabCount == 1 && tab_page.Text.Contains("*"))
-                        {
-                            DialogResult myResult = MessageBox.Show("Save file '" + tab_page.Text.Replace("*", "").Trim() + "'?", "Save", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                            if (myResult == DialogResult.Yes)
-                            {
-                                SaveFile(tab_page);
-                            }
-                            else if (myResult == DialogResult.No)
-                            {
-                                this.tabControl1.TabPages.RemoveAt(i); // 移除所在邊框的分頁
-                                addNewTabPage();
-                            }
-
-                            return;
-                        }
-
-                        if (this.tabControl1.TabCount > 1 && !tab_page.Text.Contains("*"))
-                        {
-                            this.tabControl1.TabPages.RemoveAt(i); // 移除所在邊框的分頁
-                            this.tabControl1.SelectedIndex = this.tabControl1.TabCount - 1; // 將所在邊框指定為最後一個
-                            text_editor.Focus();
-                            return;
-                        }
-
-                        if (this.tabControl1.TabCount > 1 && tab_page.Text.Contains("*"))
-                        {
-                            DialogResult myResult = MessageBox.Show("Save file '" + tab_page.Text.Replace("*", "").Trim() + "'?", "Save", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                            if (myResult == DialogResult.Yes)
-                            {
-                                SaveFile(tab_page);
-                            }
-                            else if (myResult == DialogResult.No)
-                            {
-                                this.tabControl1.TabPages.RemoveAt(i); // 移除所在邊框的分頁
-                            }
-
-                            return;
-                        }
-
+                        removeTabPage(tab_page);
                         return;
                     }
                 }
             }
             ((TextEditorControl)this.tabControl1.SelectedTab.Controls.Find("textEditorControl1", true).FirstOrDefault()).Focus();
+        }
+
+        private void removeTabPage(TabPage tab_page)
+        {
+            TextEditorControl text_editor = ((TextEditorControl)tab_page.Controls.Find("textEditorControl1", true).FirstOrDefault());
+            if (this.tabControl1.TabCount == 1 && !tab_page.Text.Contains("*"))
+            {
+                if (tab_page.Text.Contains("未命名"))
+                {
+                    return;
+                }
+                else
+                {
+                    this.tabControl1.TabPages.Remove(tab_page); // 移除所在邊框的分頁
+                    addNewTabPage();
+                }
+            }
+
+            if (this.tabControl1.TabCount == 1 && tab_page.Text.Contains("*"))
+            {
+                DialogResult myResult = MessageBox.Show("Save file '" + tab_page.Text.Replace("*", "").Trim() + "'?", "Save", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                if (myResult == DialogResult.Yes)
+                {
+                    SaveFile(tab_page);
+                }
+                else if (myResult == DialogResult.No)
+                {
+                    this.tabControl1.TabPages.Remove(tab_page); // 移除所在邊框的分頁
+                    addNewTabPage();
+                }
+
+                return;
+            }
+
+            if (this.tabControl1.TabCount > 1 && !tab_page.Text.Contains("*"))
+            {
+                this.tabControl1.TabPages.Remove(tab_page); // 移除所在邊框的分頁
+                this.tabControl1.SelectedIndex = this.tabControl1.TabCount - 1; // 將所在邊框指定為最後一個
+                text_editor.Focus();
+                return;
+            }
+
+            if (this.tabControl1.TabCount > 1 && tab_page.Text.Contains("*"))
+            {
+                DialogResult myResult = MessageBox.Show("Save file '" + tab_page.Text.Replace("*", "").Trim() + "'?", "Save", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                if (myResult == DialogResult.Yes)
+                {
+                    SaveFile(tab_page);
+                }
+                else if (myResult == DialogResult.No)
+                {
+                    this.tabControl1.TabPages.Remove(tab_page); // 移除所在邊框的分頁
+                }
+
+                return;
+            }
         }
 
 

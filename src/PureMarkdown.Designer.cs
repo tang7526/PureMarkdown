@@ -1,6 +1,6 @@
-﻿namespace NotepadPower
+﻿namespace PureMarkdown
 {
-    partial class PureMarkdown
+    partial class PureMarkdownForm
     {
         /// <summary>
         /// 設計工具所需的變數。
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PureMarkdown));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PureMarkdownForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.新文件ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();

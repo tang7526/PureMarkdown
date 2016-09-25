@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="1359428605_45378.ico" />
+    <Content Include="image\close_12.png" />
     <Content Include="lib\ICSharpCode.TextEditor.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

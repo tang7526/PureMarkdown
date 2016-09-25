@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MarkdownSharp;
-using NotepadPower;
+using PureMarkdown;
 using ICSharpCode.TextEditor;
 
 namespace PureMarkdown
@@ -16,7 +16,7 @@ namespace PureMarkdown
     {
         private TabControl tabControl;
         private SaveFileDialog saveFileDialog1;
-        private NotepadPower.PureMarkdown pureMarkdown;
+        private PureMarkdown.PureMarkdownForm pureMarkdown;
 
         public editorControl()
         {
@@ -36,7 +36,7 @@ namespace PureMarkdown
             this.saveFileDialog1 = saveFileDialog;
         }
 
-        public editorControl(NotepadPower.PureMarkdown pureMarkdown, TabControl tabControl, SaveFileDialog saveFileDialog)
+        public editorControl(PureMarkdown.PureMarkdownForm pureMarkdown, TabControl tabControl, SaveFileDialog saveFileDialog)
         {
             InitializeComponent();
             this.pureMarkdown = pureMarkdown;
