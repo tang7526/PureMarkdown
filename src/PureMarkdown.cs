@@ -26,21 +26,22 @@ namespace NotepadPower
         private void Form1_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;  // 設定表單最大化    
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.tabControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabControl1_MouseWheelDown);
+            this.tabControl1.ShowToolTips = true;
             addNewTabPage();
+            
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.Text = this.tabControl1.SelectedTab.ToolTipText + " - PureMarkdown";
+            ((TextEditorControl)this.tabControl1.SelectedTab.Controls.Find("textEditorControl1", true).FirstOrDefault()).Focus();
         }
 
         private void markdown語法說明ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("http://markdown.tw/");
-        }
-
-        private void textEditorControl1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Control && e.KeyCode.ToString() == "S")
-            {
-                SaveFile();
-            }
         }
 
         private void 開啟檔案ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -58,12 +59,6 @@ namespace NotepadPower
         private void 新文件ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             addNewTabPage();
-
-            //bPressBy新文件 = true;
-            //this.tabControl1.SelectedTab.Text = "新文件";
-            //this.textEditorControl1.Text = "";
-            //this.webBrowser1.DocumentText = "";
-            //this.Refresh();
         }
 
         private void 儲存檔案ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -94,12 +89,13 @@ namespace NotepadPower
 
         private void SaveAs()
         {
-            //   MessageBox.Show(this.ActiveControl.Name);
             saveFileDialog1.Filter = "Markdown files (*.md)|*.md|All files (*.*)|*.*";
             if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 ((editorControl)this.ActiveControl).SaveFile(saveFileDialog1.FileName);
-                this.tabControl1.SelectedTab.Text = saveFileDialog1.FileName;
+                this.Text = saveFileDialog1.FileName + " - PureMarkdown";
+                this.tabControl1.SelectedTab.Text = saveFileDialog1.FileName.Substring(saveFileDialog1.FileName.LastIndexOf('\\') + 1);
+                this.tabControl1.SelectedTab.ToolTipText = saveFileDialog1.FileName;
             }
         }
 
@@ -162,21 +158,6 @@ namespace NotepadPower
             //}
         }
 
-        private void textEditorControl1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabControl1_DoubleClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void panel1_DoubleClick(object sender, EventArgs e)
         {
             if (((MouseEventArgs)e).Button == MouseButtons.Left)
@@ -188,12 +169,16 @@ namespace NotepadPower
         private void addNewTabPage()
         {
             TabPage tabPage = new TabPage();
-            editorControl editorControl = new editorControl(this.tabControl1);
-            editorControl.Dock = DockStyle.Fill;
-            tabPage.Controls.Add(editorControl);
+            editorControl editor_Control = new editorControl(this, this.tabControl1, this.saveFileDialog1);
+            editor_Control.Dock = DockStyle.Fill;
+            tabPage.Controls.Add(editor_Control);
             this.tabControl1.TabPages.Add(tabPage);
             PAGESCOUNT += 1;
             tabPage.Text = "未命名" + PAGESCOUNT + ".md";
+            tabPage.ToolTipText = "未命名" + PAGESCOUNT + ".md";
+            this.Text = this.tabControl1.SelectedTab.ToolTipText + " - PureMarkdown"; // 這一行是為了當程式第一次啟動時，改掉程式標題才寫的。
+            this.tabControl1.SelectedTab = tabPage; // 當新增分頁後，直接跳到新分頁。
+            editor_Control.FocusNewTabPage();
         }
 
         private void tabControl1_MouseWheelDown(object sender, MouseEventArgs e)
@@ -212,11 +197,13 @@ namespace NotepadPower
                         {
                             this.tabControl1.TabPages.RemoveAt(i); // 移除所在邊框的分頁
                             this.tabControl1.SelectedIndex = this.tabControl1.TabCount - 1; // 將所在邊框指定為最後一個
+                            ((TextEditorControl)this.tabControl1.SelectedTab.Controls.Find("textEditorControl1", true).FirstOrDefault()).Focus();
                             return;
                         }
                     }
                 }
             }
+            ((TextEditorControl)this.tabControl1.SelectedTab.Controls.Find("textEditorControl1", true).FirstOrDefault()).Focus();
         }
     }
 }
