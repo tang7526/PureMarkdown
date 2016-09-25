@@ -31,6 +31,9 @@ namespace PureMarkdown
             this.tabControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabControl1_MouseDown);
             this.tabControl1.ShowToolTips = true;
             addNewTabPage();
+
+          
+
             //this.tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
             //this.tabControl1.Padding = new System.Drawing.Point(CLOSE_SIZE, this.tabControl1.Location.Y);
             //this.tabControl1.DrawItem += new DrawItemEventHandler(this.tabControl1_DrawItem);

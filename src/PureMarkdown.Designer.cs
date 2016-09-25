@@ -45,8 +45,8 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialogForSetCSS = new System.Windows.Forms.OpenFileDialog();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.tabControl1 = new PureMarkdown.DraggableTabControl();
             this.關閉檔案ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabControl1 = new PureMarkdown.DraggableTabControl();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -159,6 +159,13 @@
             this.panel1.TabIndex = 11;
             this.panel1.DoubleClick += new System.EventHandler(this.panel1_DoubleClick);
             // 
+            // 關閉檔案ToolStripMenuItem
+            // 
+            this.關閉檔案ToolStripMenuItem.Name = "關閉檔案ToolStripMenuItem";
+            this.關閉檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.關閉檔案ToolStripMenuItem.Text = "關閉檔案";
+            this.關閉檔案ToolStripMenuItem.Click += new System.EventHandler(this.關閉檔案ToolStripMenuItem_Click);
+            // 
             // tabControl1
             // 
             this.tabControl1.AllowDrop = true;
@@ -169,13 +176,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(928, 579);
             this.tabControl1.TabIndex = 0;
-            // 
-            // 關閉檔案ToolStripMenuItem
-            // 
-            this.關閉檔案ToolStripMenuItem.Name = "關閉檔案ToolStripMenuItem";
-            this.關閉檔案ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.關閉檔案ToolStripMenuItem.Text = "關閉檔案";
-            this.關閉檔案ToolStripMenuItem.Click += new System.EventHandler(this.關閉檔案ToolStripMenuItem_Click);
             // 
             // PureMarkdownForm
             // 

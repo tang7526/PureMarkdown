@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using MarkdownSharp;
-using PureMarkdown;
 using ICSharpCode.TextEditor;
+using ICSharpCode.TextEditor.Document;
+using ICSharpCode.TextEditor.Actions;
+using MarkdownSharp;
 
 namespace PureMarkdown
 {
@@ -54,6 +50,10 @@ namespace PureMarkdown
         {
             this.webBrowser1.DocumentText = "<HTML><BODY></BODY></HTML>"; // 建立新網頁
             this.textEditorControl1.ActiveTextAreaControl.TextArea.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textEditorControl1_KeyDown);
+
+            textEditorControl1.Document.FormattingStrategy = new BooFormattingStrategy();
+            textEditorControl1.SetHighlighting("Boo");
+
             //this.textEditorControl1.ActiveTextAreaControl.TextArea.MouseDown += new System.Windows.Forms.MouseEventHandler(this.textEditorControl1_MouseDown);
             //this.textEditorControl1.ActiveTextAreaControl.TextArea.DragDrop += new System.Windows.Forms.DragEventHandler(this.textEditorControl1_DragDrop);
         }
@@ -108,7 +108,7 @@ namespace PureMarkdown
             Markdown markdown = new Markdown();
             string strHtml = markdown.Transform(this.textEditorControl1.Text);
             //this.webBrowser1.Document.Body.InnerHtml = FixHR(strHtml);
-            this.webBrowser1.Document.Body.InnerHtml = strHtml;
+             this.webBrowser1.Document.Body.InnerHtml = strHtml;
         }
 
         /// <summary>
@@ -137,6 +137,30 @@ namespace PureMarkdown
         internal void FocusNewTabPage()
         {
             this.textEditorControl1.Focus();
+        }
+    }
+
+    /// <summary>
+    /// 把文件內容標上顏色
+    /// </summary>
+    public class BooFormattingStrategy : DefaultFormattingStrategy
+    {
+        public override void IndentLines(TextArea textArea, int begin, int end)
+        {
+        }
+
+        protected override int SmartIndentLine(TextArea area, int line)
+        {
+            IDocument document = area.Document;
+            LineSegment lineSegment = document.GetLineSegment(line - 1);
+            if (document.GetText(lineSegment).EndsWith(":"))
+            {
+                LineSegment segment = document.GetLineSegment(line);
+                string str = base.GetIndentation(area, line - 1) + Tab.GetIndentationString(document);
+                document.Replace(segment.Offset, segment.Length, str + document.GetText(segment));
+                return str.Length;
+            }
+            return base.SmartIndentLine(area, line);
         }
     }
 }
