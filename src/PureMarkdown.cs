@@ -104,8 +104,9 @@ namespace PureMarkdown
                 using (StreamReader sr = new StreamReader(this.openFileDialog1.FileName))
                 {
                     ((TextEditorControl)this.tabControl1.SelectedTab.Controls.Find("textEditorControl1", true).FirstOrDefault()).Text = sr.ReadToEnd();
-                    this.Text = this.openFileDialog1.FileName;
-                    this.tabControl1.SelectedTab.Text = openFileDialog1.FileName.Substring(openFileDialog1.FileName.LastIndexOf('\\') + 1);
+                    this.Text = this.openFileDialog1.FileName + " - PureMarkdown";
+                    this.tabControl1.SelectedTab.Text = this.openFileDialog1.FileName.Substring(openFileDialog1.FileName.LastIndexOf('\\') + 1);
+                    this.tabControl1.SelectedTab.ToolTipText = this.openFileDialog1.FileName;
                 }
             }
         }
