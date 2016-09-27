@@ -106,14 +106,14 @@ namespace PureMarkdown
                 this.tabControl.SelectedTab.Text = "* " + this.tabControl.SelectedTab.Text;
             }
 
-            Marked marked = new Marked();
-            String html = marked.Parse(this.textEditorControl1.Text);
-            this.webBrowser1.Document.Body.InnerHtml = html;
+            // Marked marked = new Marked();
+            // String html = marked.Parse(this.textEditorControl1.Text);
+            // this.webBrowser1.Document.Body.InnerHtml = html;
 
-            //Markdown markdown = new Markdown();
-            //string strHtml = markdown.Transform(this.textEditorControl1.Text);
+            Markdown markdown = new Markdown();
+            string strHtml = markdown.Transform(this.textEditorControl1.Text);
             ////this.webBrowser1.Document.Body.InnerHtml = FixHR(strHtml);
-            // this.webBrowser1.Document.Body.InnerHtml = strHtml;
+            this.webBrowser1.Document.Body.InnerHtml = strHtml;
         }
 
         /// <summary>
