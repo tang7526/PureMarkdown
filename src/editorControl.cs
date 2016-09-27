@@ -5,7 +5,6 @@ using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
 using ICSharpCode.TextEditor.Actions;
 using MarkdownSharp;
-using MarkedNet;
 
 namespace PureMarkdown
 {
