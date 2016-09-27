@@ -5,6 +5,7 @@ using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
 using ICSharpCode.TextEditor.Actions;
 using MarkdownSharp;
+using MarkedNet;
 
 namespace PureMarkdown
 {
@@ -48,7 +49,7 @@ namespace PureMarkdown
 
         private void editorControl_Load(object sender, EventArgs e)
         {
-            this.webBrowser1.DocumentText = "<HTML><BODY></BODY></HTML>"; // 建立新網頁
+            this.webBrowser1.DocumentText = "<!DOCTYPE html><html><head><title></title></head><body></body></html>"; // 建立HTML5標準格式的新網頁
             this.textEditorControl1.ActiveTextAreaControl.TextArea.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textEditorControl1_KeyDown);
 
             textEditorControl1.Document.FormattingStrategy = new BooFormattingStrategy();
@@ -105,10 +106,14 @@ namespace PureMarkdown
                 this.tabControl.SelectedTab.Text = "* " + this.tabControl.SelectedTab.Text;
             }
 
-            Markdown markdown = new Markdown();
-            string strHtml = markdown.Transform(this.textEditorControl1.Text);
-            //this.webBrowser1.Document.Body.InnerHtml = FixHR(strHtml);
-             this.webBrowser1.Document.Body.InnerHtml = strHtml;
+            Marked marked = new Marked();
+            String html = marked.Parse(this.textEditorControl1.Text);
+            this.webBrowser1.Document.Body.InnerHtml = html;
+
+            //Markdown markdown = new Markdown();
+            //string strHtml = markdown.Transform(this.textEditorControl1.Text);
+            ////this.webBrowser1.Document.Body.InnerHtml = FixHR(strHtml);
+            // this.webBrowser1.Document.Body.InnerHtml = strHtml;
         }
 
         /// <summary>
